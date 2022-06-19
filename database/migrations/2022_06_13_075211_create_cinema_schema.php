@@ -58,8 +58,8 @@ class CreateCinemaSchema extends Migration
                 $table->date('date');
                 $table->dateTime('start_time');
                 $table->dateTime('end_time');
-                $table->foreignId('city_id')->references('id')->on('cities');  
-                $table->foreignId('movie_id')->references('id')->on('movies');
+                $table->integer('city_id')->references('id')->on('cities');  
+                $table->integer('movie_id')->references('id')->on('movies');
                 $table->timestamps();
             });
             
@@ -73,8 +73,8 @@ class CreateCinemaSchema extends Migration
             Schema::create('bookings', function ($table) {
                 $table->increments('id');
                 $table->integer('number_of_sheets');
-                $table->foreignId('user_id')->references('id')->on('users');
-                $table->foreignId('show_id')->references('id')->on('shows');
+                $table->integer('user_id')->references('id')->on('users');
+                $table->integer('show_id')->references('id')->on('shows');
                 $table->integer('status');
                 $table->timestamps();
             });
@@ -84,21 +84,21 @@ class CreateCinemaSchema extends Migration
                 $table->increments('id');
                 $table->string('seat_number');
                 $table->string('type');
-                $table->foreignId('cinema_id')->references('id')->on('cinema');
+                $table->integer('cinema_id')->references('id')->on('cinema');
                 $table->timestamps();
             });
             Schema::create('show_seat', function ($table) {
                 $table->increments('id');
                 $table->string('status');
                 $table->string('price');
-                $table->foreignId('cinema_seat_id')->references('id')->on('cinema_seat');
-                $table->foreignId('show_id')->references('id')->on('shows');
-                $table->foreignId('booking_id')->references('id')->on('bookings');
+                $table->integer('cinema_seat_id')->references('id')->on('cinema_seat');
+                $table->integer('show_id')->references('id')->on('shows');
+                $table->integer('booking_id')->references('id')->on('bookings');
                 $table->timestamps();
             });
             Schema::create('payment', function ($table) {
                 $table->increments('id');
-                $table->foreignId('booking_id')->references('id')->on('bookings');
+                $table->integer('booking_id')->references('id')->on('bookings');
                 $table->string('amount');
                 $table->string('discount_coupon_id');
                 $table->string('transaction_id');
