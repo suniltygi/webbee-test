@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Carbon\Carbon;
 use Facade\FlareClient\Http\Response;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Date;
+use PhpParser\Builder\Function_;
 
 class EventsController extends BaseController
 {
@@ -186,6 +189,15 @@ class EventsController extends BaseController
      */
 
     public function getFutureEventsWithWorkshops() {
-        throw new \Exception('implement in coding task 2');
+        try {
+            return Event::with('workshops')
+            ->whereHas('workshops',function (Builder $query) {
+                $query->where('start', '>', Carbon::now());
+            })
+            ->get();
+        } catch (\Throwable $th) {
+            throw new \Exception('implement in coding task 2');
+            //throw $th;
+        }
     }
 }
